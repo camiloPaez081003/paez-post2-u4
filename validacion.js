@@ -132,3 +132,22 @@ function validarTelefono() {
   limpiarError("telefono");
   return true;
 }
+// ─── Validación en tiempo real ───
+
+// Evento blur (cuando sales del campo)
+document.querySelector("#nombre").addEventListener("blur", validarNombre);
+
+document.querySelector("#email").addEventListener("blur", validarEmail);
+
+document.querySelector("#password").addEventListener("blur", validarPassword);
+
+document.querySelector("#confirmar").addEventListener("blur", validarConfirmar);
+
+document.querySelector("#telefono").addEventListener("blur", validarTelefono);
+
+// Limpiar error al escribir en confirmar
+document.querySelector("#confirmar").addEventListener("input", () => {
+  if (document.querySelector("#confirmar").value) {
+    limpiarError("confirmar");
+  }
+});
