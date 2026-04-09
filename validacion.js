@@ -151,3 +151,41 @@ document.querySelector("#confirmar").addEventListener("input", () => {
     limpiarError("confirmar");
   }
 });
+// ─── Manejo del submit ───
+
+const form = document.querySelector("#form-registro");
+
+form.addEventListener("submit", (e) => {
+  e.preventDefault(); // evita envío real
+
+  // Ejecutar todas las validaciones
+  const resultados = [
+    validarNombre(),
+    validarEmail(),
+    validarPassword(),
+    validarConfirmar(),
+    validarTelefono(),
+  ];
+
+  const todoValido = resultados.every((r) => r === true);
+
+  if (todoValido) {
+    const mensajeExito = document.querySelector("#mensaje-exito");
+
+    mensajeExito.classList.remove("oculto");
+    mensajeExito.classList.add("visible");
+
+    // Limpiar después de 2 segundos
+    setTimeout(() => {
+      form.reset();
+      limpiarTodo();
+
+      mensajeExito.classList.remove("visible");
+      mensajeExito.classList.add("oculto");
+    }, 2000);
+  } else {
+    // Ir al primer error
+    const primerError = form.querySelector(".invalido");
+    if (primerError) primerError.focus();
+  }
+});
