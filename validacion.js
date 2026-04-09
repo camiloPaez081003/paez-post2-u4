@@ -189,3 +189,39 @@ form.addEventListener("submit", (e) => {
     if (primerError) primerError.focus();
   }
 });
+// ─── Fortaleza de contraseña ───
+
+function evaluarFortaleza(valor) {
+  let puntos = 0;
+
+  if (valor.length >= 8) puntos++;
+  if (/[A-Z]/.test(valor)) puntos++;
+  if (/[0-9]/.test(valor)) puntos++;
+  if (/[^A-Za-z0-9]/.test(valor)) puntos++;
+
+  const niveles = ["", "Débil", "Regular", "Buena", "Fuerte"];
+  const colores = ["", "#C62828", "#F57F17", "#1565C0", "#2E7D32"];
+
+  return {
+    nivel: niveles[puntos],
+    color: colores[puntos],
+    puntos,
+  };
+}
+
+const campoPassword = document.querySelector("#password");
+
+campoPassword.addEventListener("input", () => {
+  const { nivel, color, puntos } = evaluarFortaleza(campoPassword.value);
+
+  let indicador = document.querySelector("#fortaleza");
+
+  if (!indicador) {
+    indicador = document.createElement("span");
+    indicador.id = "fortaleza";
+    campoPassword.insertAdjacentElement("afterend", indicador);
+  }
+
+  indicador.textContent = puntos > 0 ? `Contraseña: ${nivel}` : "";
+  indicador.style.color = color;
+});
